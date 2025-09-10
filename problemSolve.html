@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="Images/logo-white.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code-forge Solve Problem</title>
+  <link rel="stylesheet" href="css/problem-solve.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+  <nav>
+    <!-- Left side -->
+    <div class="nav-left">
+      <div class="logo-container">
+        <img src="Images/logo-white.png" alt="CodeForge Logo" />
+      </div>
+      <div class="nav-item active">
+        <i class="fas fa-code"></i>
+        <span class="text">Problems</span>
+      </div>
+      
+      <div class="nav-item">
+        <i class="fas fa-book"></i>
+        <span class="text">Learn</span>
+      </div>
+      
+      <div class="problem-nav-controls">
+        <div class="nav-control">
+          <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="nav-control">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="nav-control">
+          <i class="fas fa-random"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center -->
+    <div class="nav-center">
+      <div class="search-container">
+        <div class="search-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <input type="text" class="search-input" placeholder="Search problems...">
+      </div>
+    </div>
+
+    <!-- Right side -->
+    <div class="nav-right">
+      <button class="btn btn-run">
+        <i class="fas fa-play"></i>
+        <span>Run</span>
+      </button>
+      <button class="btn btn-submit">
+        <i class="fas fa-paper-plane"></i>
+        <span>Submit</span>
+      </button>
+      
+      <div class="divider"></div>
+      
+      <div class="user-menu">
+        <div class="user-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <span class="username">Guest</span>
+        <i class="fas fa-caret-down" style="margin-left: 5px; font-size: 12px;"></i>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-container">
+    <!-- Problem Description Panel -->
+    <div class="problem-panel">
+      <div class="problem-tabs">
+        <div class="tab active">Description</div>
+        <div class="tab">Solutions</div>
+        <div class="tab">Help with AI</div>
+        <div class="tab">Submissions</div>
+      </div>
+
+      <h1 class="problem-title">Two Sum</h1>
+      <div class="difficulty easy">Easy</div>
+      
+      <div class="problem-content">
+        <p>Given an array of integers <code>nums</code> and an integer <code>target</code>, return indices of the two numbers such that they add up to <code>target</code>.</p>
+        
+        <p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+        
+        <p>You can return the answer in any order.</p>
+        
+        <h3>Example 1:</h3>
+        <div class="example">
+          <p><strong>Input:</strong> nums = [2,7,11,15], target = 9</p>
+          <p><strong>Output:</strong> [0,1]</p>
+          <p><strong>Explanation:</strong> Because nums[0] + nums[1] == 9, we return [0, 1].</p>
+        </div>
+        
+        <h3>Example 2:</h3>
+        <div class="example">
+          <p><strong>Input:</strong> nums = [3,2,4], target = 6</p>
+          <p><strong>Output:</strong> [1,2]</p>
+        </div>
+        
+        <h3>Example 3:</h3>
+        <div class="example">
+          <p><strong>Input:</strong> nums = [3,3], target = 6</p>
+          <p><strong>Output:</strong> [0,1]</p>
+        </div>
+        
+        <h3>Constraints:</h3>
+        <div class="constraints">
+          <p>2 ≤ nums.length ≤ 10<sup>4</sup></p>
+          <p>-10<sup>9</sup> ≤ nums[i] ≤ 10<sup>9</sup></p>
+          <p>-10<sup>9</sup> ≤ target ≤ 10<sup>9</sup></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Editor and Console Panel -->
+    <div class="editor-panel .my-scrollable">
+      <div class="code-editor-container">
+        <div class="editor-header">
+          <select class="language-selector" id="language-choose">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="c++">C++</option>
+            <option value="c">C</option>
+          </select>
+    
+        </div>
+<div id="code-editor"></div>
+
+      </div>
+
+      <div class="console-container">
+        <div class="console-tabs">
+          <div class="console-tab active">Test Cases</div>
+          <div class="console-tab">Output</div>
+        </div>
+
+        <div class="test-cases">
+          <div class="test-case">
+            <div class="test-case-header">
+              <div class="test-case-title">Test Case 1</div>
+              <div class="test-case-result success">Passed</div>
+            </div>
+            <div class="input-output">
+              <div><strong>Input:</strong> nums = [2,7,11,15], target = 9</div>
+              <div><strong>Expected:</strong> [0,1]</div>
+              <div><strong>Output:</strong> [0,1]</div>
+            </div>
+          </div>
+
+          <div class="test-case">
+            <div class="test-case-header">
+              <div class="test-case-title">Test Case 2</div>
+              <div class="test-case-result success">Passed</div>
+            </div>
+            <div class="input-output">
+              <div><strong>Input:</strong> nums = [3,2,4], target = 6</div>
+              <div><strong>Expected:</strong> [1,2]</div>
+              <div><strong>Output:</strong> [1,2]</div>
+            </div>
+          </div>
+
+          <div class="test-case ">
+            <div class="test-case-header">
+              <div class="test-case-title">Test Case 3</div>
+              <div class="test-case-result failure">Failed</div>
+            </div>
+            <div class="input-output">
+              <div><strong>Input:</strong> nums = [1,3,5,7], target = 10</div>
+              <div><strong>Expected:</strong> [1,3]</div>
+              <div><strong>Output:</strong> [0,0]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script src="js/problem-solve.js"></script>
+    <!-- Monaco Editor -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+<script>
+ const languageChoose = document.getElementById("language-choose");
+  let editor; // store editor instance
+
+  require.config({ paths: { vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs" } });
+  require(["vs/editor/editor.main"], function () {
+    editor = monaco.editor.create(document.getElementById("code-editor"), {
+      value: `/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    const map = new Map();
+    
+    for (let i = 0; i < nums.length; i++) {
+        const complement = target - nums[i];
+        
+        if (map.has(complement)) {
+            return [map.get(complement), i];
+        }
+        
+        map.set(nums[i], i);
+    }
+    
+    return [];
+};`,
+      language: languageChoose.value, // ✅ use current value
+      theme: "vs-dark",
+      fontSize: 14,
+      fontFamily: "Fira Code, Consolas, monospace",
+      automaticLayout: true,
+      minimap: { enabled: false }
+    });
+  });
+
+  // ✅ Handle dropdown change
+  languageChoose.addEventListener("change", function () {
+    const newLang = this.value;
+    monaco.editor.setModelLanguage(editor.getModel(), newLang);
+  });
+</script>
+
+    
+
+</body>
+</html>
