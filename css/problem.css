@@ -71,8 +71,8 @@
         color: var(--text-dark);
       }
 
-      .active {
-        color: var(--primary-color);
+      .active1 {
+        color: var(--primary-color) !important;
         border-bottom: 1px solid var(--primary-color);
       }
 
