@@ -51,13 +51,13 @@
 
     <!-- Right side -->
     <div class="nav-right">
-      <button class="btn btn-run">
+      <button class="btn btn-run" id="run-btn">
         <i class="fas fa-play"></i>
         <span>Run</span>
       </button>
-      <button class="btn btn-submit">
+      <button class="btn btn-submit" id="submit-btn">
         <i class="fas fa-paper-plane"></i>
-        <span>Submit</span>
+        <span >Submit</span>
       </button>
       
       <div class="divider"></div>
@@ -76,12 +76,12 @@
     <!-- Problem Description Panel -->
     <div class="problem-panel">
       <div class="problem-tabs">
-        <div class="tab active">Description</div>
+        <div class="tab active" id="des-head">Description</div>
         <div class="tab">Solutions</div>
         <div class="tab">Help with AI</div>
-        <div class="tab">Submissions</div>
+        <div class="tab" id="submissions-head">Submissions</div>
       </div>
-
+        <div id="problem-content">
       <h1 class="problem-title">Two Sum</h1>
       <div class="difficulty easy">Easy</div>
       
@@ -117,6 +117,7 @@
           <p>-10<sup>9</sup> ≤ nums[i] ≤ 10<sup>9</sup></p>
           <p>-10<sup>9</sup> ≤ target ≤ 10<sup>9</sup></p>
         </div>
+        </div>
       </div>
     </div>
 
@@ -139,12 +140,11 @@
 
       <div class="console-container">
         <div class="console-tabs">
-          <div class="console-tab active">Test Cases</div>
-          <div class="console-tab">Output</div>
+          <div class="console-tab active" id="test-section">Test Cases</div>
+          <div class="console-tab" id="output-section">Output</div>
         </div>
 
-        <div class="test-cases">
-          <div class="test-case">
+        <div class="test-cases" id="console-area">          <div class="test-case">
             <div class="test-case-header">
               <div class="test-case-title">Test Case 1</div>
               <div class="test-case-result success">Passed</div>

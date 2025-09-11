@@ -2,6 +2,9 @@
       // Functionality for topic buttons
       const problemsList = document.querySelector(".problem-container");
       const topicButtons = document.querySelectorAll(".topic-btn");
+
+
+
       topicButtons.forEach((button) => {
         button.addEventListener("click", () => {
           // Remove active class from all buttons
