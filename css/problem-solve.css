@@ -76,6 +76,11 @@
       background-color: rgba(59, 130, 246, 0.15);
     }
 
+    .nav-item a{
+      text-decoration: none;
+      color: white;
+
+    }
     .problem-nav-controls {
       display: flex;
       align-items: center;
@@ -84,6 +89,9 @@
       padding: 2px;
     }
 
+
+    .tab-panel { display: none; }
+.tab-panel.active { display: block; }
     .nav-control {
       padding: 5px 10px;
       border-radius: 4px;
