@@ -301,9 +301,9 @@
       line-height: 1.6;
     }
 
-    .problem-content h3 {
+    .problem-content h3,.exp {
       margin: 20px 0 10px 0;
-      color: var(--color-primary);
+      color : var(--color-primary);
     }
 
     .example {
@@ -345,6 +345,9 @@
       border-radius: 4px;
       padding: 6px 12px;
       cursor: pointer;
+    }
+    .language-selector option{
+      background-color: #121212;
     }
 
 

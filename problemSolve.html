@@ -26,8 +26,8 @@
           <i class="fas fa-book"></i> <span class="text">Learn</span>
         </div>
         <div class="problem-nav-controls">
-          <div class="nav-control"><i class="fas fa-chevron-left"></i></div>
-          <div class="nav-control"><i class="fas fa-chevron-right"></i></div>
+          <div class="nav-control" onclick="leftPorblem()"><i class="fas fa-chevron-left"></i></div>
+          <div class="nav-control" onclick="rightProblme()"><i class="fas fa-chevron-right"></i></div>
           <div class="nav-control"><i class="fas fa-random"></i></div>
         </div>
       </div>
@@ -67,7 +67,7 @@
         <div class="problem-tabs">
           <div class="tab active" id="des-head">Description</div>
           <div class="tab">Solutions</div>
-          <div class="tab">Help with AI</div>
+          <div class="tab" id="ai-head">Help with AI</div>
           <div class="tab" id="submissions-head">Submissions</div>
         </div>
         <div id="problem-content">
@@ -112,6 +112,18 @@
           </div>
         </div>
       </div>
+
+         
+
+
+
+
+
+
+
+
+
+
       <!-- Code Editor and Console Panel -->
       <div class="editor-panel my-scrollable">
         <div class="code-editor-container">
@@ -181,26 +193,10 @@
   require.config({ paths: { vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs" } });
   require(["vs/editor/editor.main"], function () {
     editor = monaco.editor.create(document.getElementById("code-editor"), {
-      value: `/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
-var twoSum = function(nums, target) {
-    const map = new Map();
-    
-    for (let i = 0; i < nums.length; i++) {
-        const complement = target - nums[i];
-        
-        if (map.has(complement)) {
-            return [map.get(complement), i];
-        }
-        
-        map.set(nums[i], i);
-    }
-    
-    return [];
-};`,
+      value: `   // Note- 
+      //You need Write Whole code of problem 
+      // and ouptut should be Match to exact tast case output 
+      // so please chack test case output before code  `,
       language: languageChoose.value, // ✅ use current value
       theme: "vs-dark",
       fontSize: 14,

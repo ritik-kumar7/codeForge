@@ -1,13 +1,23 @@
+const urlParams = new URLSearchParams(window.location.search);
+let problemIndex = urlParams.get("index");
+const runBtn = document.getElementById("run-btn");
+const submitBtn = document.getElementById("submit-btn");
+const subHead = document.getElementById("submissions-head");
+const desHead = document.getElementById("des-head");
+const aiHead = document.getElementById("ai-head");
+let problemContent = document.getElementById("problem-content");
+// Code editor functionality
+const codeEditor = document.getElementById("code-editor");
+const languageSelector = document.querySelector(".language-selector");
+let lastSubmissionHTML = "";
 
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const problemIndex = urlParams.get("index");
-          const runBtn=document.getElementById("run-btn");
-      const submitBtn=document.getElementById("submit-btn");
-        const subHead = document.getElementById("submissions-head");
-  const desHead = document.getElementById("des-head");
 
-const JUDGE_API = "https://ce.judge0.com/submissions?base64_encoded=false&wait=true";
+
+// ==== JUDGE_API call and get data section ====
+
+const JUDGE_API =
+  "https://ce.judge0.com/submissions?base64_encoded=false&wait=true";
 // If you want to use RapidAPI (as you did), put your key here. Leave empty to use public CE endpoint.
 const RAPIDAPI_KEY = "5ed5e91202msh9bc0f9dbafab4bdp12eb88jsn363a98640217"; // e.g. "fe81c33ec0msh..." or "" to use public endpoint
 
@@ -32,7 +42,9 @@ function escapeHtml(str) {
 }
 function normalize(str) {
   if (str === null || str === undefined) return "";
-  return String(str).replace(/\s+/g, "").replace(/[\r\n]/g, "");
+  return String(str)
+    .replace(/\s+/g, "")
+    .replace(/[\r\n]/g, "");
 }
 
 // unified submission to Judge0 (returns parsed JSON)
@@ -40,17 +52,18 @@ async function sendToJudge0({ source_code, language_id, stdin }) {
   const body = {
     source_code,
     language_id,
-    stdin: stdin || ""
+    stdin: stdin || "",
   };
 
   const headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   };
 
   let url = JUDGE_API;
   // If user provided a RapidAPI key, use their RapidAPI host path (same endpoint but required headers)
   if (RAPIDAPI_KEY && RAPIDAPI_KEY.trim() !== "") {
-    url = "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false&wait=true";
+    url =
+      "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false&wait=true";
     headers["X-RapidAPI-Key"] = RAPIDAPI_KEY;
     headers["X-RapidAPI-Host"] = "judge0-ce.p.rapidapi.com";
   }
@@ -58,19 +71,19 @@ async function sendToJudge0({ source_code, language_id, stdin }) {
   const res = await fetch(url, {
     method: "POST",
     headers,
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`Judge0 API error: ${res.status} ${res.statusText} - ${text}`);
+    throw new Error(
+      `Judge0 API error: ${res.status} ${res.statusText} - ${text}`
+    );
   }
- let data=res.json()
- console.log(data);
- return data;
+  let data = res.json();
+  console.log(data);
+  return data;
 }
-
-
 
 /* --------- RUN button (runs sample test cases and shows results in Output tab) ---------- */
 runBtn.addEventListener("click", async () => {
@@ -81,8 +94,13 @@ runBtn.addEventListener("click", async () => {
   const consoleArea = document.getElementById("console-area");
   consoleArea.innerHTML = ""; // clear
 
-  if (!currentProblem || !currentProblem.testCases || currentProblem.testCases.length === 0) {
-    consoleArea.innerHTML = "<div class='test-case'><div class='input-output'><strong>Error:</strong> No test cases available for this problem.</div></div>";
+  if (
+    !currentProblem ||
+    !currentProblem.testCases ||
+    currentProblem.testCases.length === 0
+  ) {
+    consoleArea.innerHTML =
+      "<div class='test-case'><div class='input-output'><strong>Error:</strong> No test cases available for this problem.</div></div>";
     return;
   }
 
@@ -117,7 +135,7 @@ runBtn.addEventListener("click", async () => {
       const result = await sendToJudge0({
         source_code: codeValue,
         language_id: languageId,
-        stdin: tc.input
+        stdin: tc.input,
       });
 
       const output = (result.stdout || "").trim();
@@ -127,24 +145,36 @@ runBtn.addEventListener("click", async () => {
       const passed = normalize(output) === normalize(tc.output);
 
       // update UI
-      tcWrapper.querySelector(".test-case-result").className = `test-case-result ${passed ? "success" : "failure"}`;
-      tcWrapper.querySelector(".test-case-result").textContent = passed ? "Passed" : "Failed";
+      tcWrapper.querySelector(
+        ".test-case-result"
+      ).className = `test-case-result ${passed ? "success" : "failure"}`;
+      tcWrapper.querySelector(".test-case-result").textContent = passed
+        ? "Passed"
+        : "Failed";
 
       const outElem = tcWrapper.querySelector(".out-value");
       let display = output || compileOut || stderr || "No output";
       display = escapeHtml(display);
-      outElem.innerHTML = display + `<div style="font-size:12px;margin-top:6px;color:#666;"><strong>Time:</strong> ${result.time || 0}s &nbsp; <strong>Memory:</strong> ${result.memory || 0}KB</div>`;
-
+      outElem.innerHTML =
+        display +
+        `<div style="font-size:12px;margin-top:6px;color:#666;"><strong>Time:</strong> ${
+          result.time || 0
+        }s &nbsp; <strong>Memory:</strong> ${result.memory || 0}KB</div>`;
     } catch (err) {
-      tcWrapper.querySelector(".test-case-result").className = `test-case-result failure`;
+      tcWrapper.querySelector(
+        ".test-case-result"
+      ).className = `test-case-result failure`;
       tcWrapper.querySelector(".test-case-result").textContent = `Error`;
       tcWrapper.querySelector(".out-value").innerHTML = escapeHtml(err.message);
     }
   }
 });
 
-/* --------- SUBMIT button (runs all test cases and shows detailed submission view) ---------- */
-submitBtn.addEventListener("click", async () => {
+
+
+// ============ code submitBtn function =============
+
+async function codeSubmit() {
   const codeValue = editor.getValue();
   const languageId = langIds[languageChoose.value] || 63;
 
@@ -153,10 +183,14 @@ submitBtn.addEventListener("click", async () => {
   desHead.classList.remove("active");
   subHead.classList.add("active");
 
-  const problemContent = document.getElementById("problem-content");
-  problemContent.innerHTML = "<div class='console-output'>Submitting your code and running all test cases...</div>";
+  problemContent.innerHTML =
+    "<div class='console-output'>Submitting your code and running all test cases...</div>";
 
-  if (!currentProblem || !currentProblem.testCases || currentProblem.testCases.length === 0) {
+  if (
+    !currentProblem ||
+    !currentProblem.testCases ||
+    currentProblem.testCases.length === 0
+  ) {
     problemContent.innerHTML = `<div class="submission-result submission-failure"><h3>Error</h3><p>No test cases available.</p></div>`;
     return;
   }
@@ -174,7 +208,7 @@ submitBtn.addEventListener("click", async () => {
       const res = await sendToJudge0({
         source_code: codeValue,
         language_id: languageId,
-        stdin: tc.input
+        stdin: tc.input,
       });
 
       const output = (res.stdout || "").trim();
@@ -194,7 +228,7 @@ submitBtn.addEventListener("click", async () => {
         output: shownOutput,
         passed,
         time: res.time || 0,
-        memory: res.memory || 0
+        memory: res.memory || 0,
       });
     } catch (err) {
       testResults.push({
@@ -203,7 +237,7 @@ submitBtn.addEventListener("click", async () => {
         output: `Error: ${err.message}`,
         passed: false,
         time: 0,
-        memory: 0
+        memory: 0,
       });
     }
   }
@@ -213,7 +247,9 @@ submitBtn.addEventListener("click", async () => {
 
   // Build submission HTML
   let resultsHTML = `
-    <div class="submission-result ${successRate === 100 ? "submission-success" : "submission-failure"}">
+    <div class="submission-result ${
+      successRate === 100 ? "submission-success" : "submission-failure"
+    }">
       <h3>${successRate === 100 ? "Accepted" : "Wrong Answer"}</h3>
       <p>${passedCount} out of ${allTestCases.length} test cases passed</p>
       <div class="metrics-container">
@@ -255,85 +291,83 @@ submitBtn.addEventListener("click", async () => {
   });
 
   problemContent.innerHTML = resultsHTML;
+  lastSubmissionHTML = resultsHTML;
+}
+
+/* --------- SUBMIT button (runs all test cases and shows detailed submission view) ---------- */
+submitBtn.addEventListener("click", codeSubmit);
+
+// Tab functionality
+const tabs = document.querySelectorAll(".tab");
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    tabs.forEach((t) => t.classList.remove("active"));
+    tab.classList.add("active");
+  });
+});
+
+// Console tabs functionality
+const consoleTabs = document.querySelectorAll(".console-tab");
+consoleTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    consoleTabs.forEach((t) => t.classList.remove("active"));
+    tab.classList.add("active");
+  });
 });
 
 
 
-
-
-    // Tab functionality
-    const tabs = document.querySelectorAll('.tab');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-      });
-    });
-
-    // Console tabs functionality
-    const consoleTabs = document.querySelectorAll('.console-tab');
-    consoleTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        consoleTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-      });
-    });
-
-    // Code editor functionality
-    const codeEditor = document.getElementById('code-editor');
-    const languageSelector = document.querySelector('.language-selector');
-    
-    // Example of changing syntax based on language
-    languageSelector.addEventListener('change', (e) => {
-      const language = e.target.value;
-      // In a real app, you would change the editor mode here
-      console.log(`Language changed to: ${language}`);
-    });
-
- desHead.addEventListener("click", () => {
-  desHead.classList.add("active");
-  subHead.classList.remove("active");
-showProblem(problemIndex);
-  
+// Example of changing syntax based on language
+languageSelector.addEventListener("change", (e) => {
+  const language = e.target.value;
+  // In a real app, you would change the editor mode here
+  console.log(`Language changed to: ${language}`);
 });
 
-
-
- // Update the showProblem function to store the problem data
+// Update the showProblem function to store the problem data
 async function showProblem(problemIndex) {
   try {
     const response = await fetch("../datas/problems.json");
     const data = await response.json();
     currentProblem = data[problemIndex];
-    
-    // Update the problem content
-    document.querySelector('.problem-title').textContent = currentProblem.title;
-    document.querySelector('.difficulty').textContent = 
-      currentProblem.difficulty.charAt(0).toUpperCase() + currentProblem.difficulty.slice(1);
-    document.querySelector('.difficulty').className = `difficulty ${currentProblem.difficulty.toLowerCase()}`;
-    
+
+    document.title = `CodeForge - ${currentProblem.title}`;
+
     // Update problem description
-    const problemContent = document.querySelector('.problem-content');
+    //  problemContent = document.querySelector("#problem-content");
     problemContent.innerHTML = `
+       <h1 class="problem-title">${currentProblem.title}</h1>
+          <div class="difficulty  ${currentProblem.difficulty.toLowerCase()}">${
+      currentProblem.difficulty.charAt(0).toUpperCase() +
+      currentProblem.difficulty.slice(1)
+    }</div>
       <p>${currentProblem.description}</p>
       
-      ${currentProblem.examples.map((example, idx) => `
-        <h3>Example ${idx + 1}:</h3>
+      ${currentProblem.examples
+        .map(
+          (example, idx) => `
+        <h3 class='exp'>Example ${idx + 1}:</h3>
         <div class="example">
           <p><strong>Input:</strong> ${example.input}</p>
           <p><strong>Output:</strong> ${example.output}</p>
         </div>
-      `).join('')}
+      `
+        )
+        .join("")}
       
       <h3>Constraints:</h3>
       <div class="constraints">
-        ${currentProblem.constraints.map(constraint => `<p>${constraint}</p>`).join('')}
+        ${currentProblem.constraints
+          .map((constraint) => `<p>${constraint}</p>`)
+          .join("")}
       </div>
     `;
 
     // ✅ NEW: also update test cases dynamically in console
     const consoleArea = document.getElementById("console-area");
-    consoleArea.innerHTML = currentProblem.testCases.map((tc, i) => `
+    consoleArea.innerHTML = currentProblem.testCases
+      .map(
+        (tc, i) => `
       <div class="test-case">
         <div class="test-case-header">
           <div class="test-case-title">Test Case ${i + 1}</div>
@@ -343,17 +377,59 @@ async function showProblem(problemIndex) {
           <div><strong>Expected:</strong> ${tc.output}</div>
         </div>
       </div>
-    `).join('');
-    
+    `
+      )
+      .join("");
   } catch (error) {
     console.error("Error loading problem:", error);
   }
 }
 
 
-    // Initialize with the first problem
+// =============== description Heading click function =============
+desHead.addEventListener("click", () => {
+  desHead.classList.add("active");
+  subHead.classList.remove("active");
+  showProblem(problemIndex);
+});
+
+
+// ai secion 
+aiHead.addEventListener("click", () => {
+  problemContent.innerHTML = "";
+});
+
+function updateUrl(index) {
+  const url = new URL(window.location);
+  url.searchParams.set("index", index);
+  window.history.pushState({}, "", url); // updates URL without reload
+}
+
+function leftPorblem() {
+  if (problemIndex > 0 && problemIndex <= 19) {
+    problemIndex--;
     showProblem(problemIndex);
+    updateUrl(problemIndex);
+  }
+}
+function rightProblme() {
+  if (problemIndex >= 0 && problemIndex < 19) {
+    problemIndex++;
+    showProblem(problemIndex);
+    updateUrl(problemIndex);
+  }
+}
+subHead.addEventListener("click", () => {
+  desHead.classList.remove("active");
+  subHead.classList.add("active");
 
+  if (lastSubmissionHTML) {
+    problemContent.innerHTML = lastSubmissionHTML;
+  } else {
+    problemContent.innerHTML =
+      "<p>No submissions yet. Please submit your code first.</p>";
+  }
+});
 
-
-
+// Initialize with the first problem
+showProblem(problemIndex);
