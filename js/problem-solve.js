@@ -75,10 +75,10 @@ async function sendToJudge0({ source_code, language_id, stdin }) {
   });
 
   if (!res.ok) {
-    const text = await res.text();
-    throw new Error(
-      `Judge0 API error: ${res.status} ${res.statusText} - ${text}`
-    );
+    if (res.status === 522) {
+      throw new Error('Judge0 service is temporarily unavailable. Please try again in a few minutes.');
+    }
+    throw new Error(`Judge0 API error: ${res.status} ${res.statusText}`);
   }
   let data = res.json();
   console.log(data);
@@ -394,10 +394,182 @@ desHead.addEventListener("click", () => {
 });
 
 
-// ai secion 
+// AI section with chat functionality
+let aiChatHistory = [];
+let aiUniqueIdCounter = 0;
+let aiChatHTML = '';
+const AI_API_KEY = "AIzaSyBv17n2ysLziVxFDONU4OcuXGAiss0nWJE";
+const AI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${AI_API_KEY}`;
+
 aiHead.addEventListener("click", () => {
-  problemContent.innerHTML = "";
+  // Switch to AI tab
+  tabs.forEach(t => t.classList.remove('active'));
+  aiHead.classList.add('active');
+  
+  problemContent.innerHTML = `
+    <div class="ai-chat-container">
+      <div class="ai-header">
+        <h3>Forge Ai - Get Help with Your Code</h3>
+        <p>Ask questions about algorithms, debugging, or problem-solving approaches</p>
+      </div>
+      <div class="ai-chat-list" id="ai-chat-list">${aiChatHTML}</div>
+      <div class="ai-input-area">
+        <form class="ai-typing-form" id="ai-typing-form">
+          <div class="ai-input-wrapper">
+            <textarea placeholder="Ask me about this problem, algorithms, or debugging..." class="ai-typing-input" rows="2"></textarea>
+            <button type="submit" class="ai-send-btn">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  
+  // Add event listener for AI form
+  document.getElementById('ai-typing-form').addEventListener('submit', handleAIChat);
+  
+  // Scroll to bottom if there's chat history
+  if (aiChatHTML) {
+    const chatList = document.getElementById('ai-chat-list');
+    chatList.scrollTop = chatList.scrollHeight;
+  }
 });
+
+function handleAIChat(e) {
+  e.preventDefault();
+  const input = e.target.querySelector('.ai-typing-input');
+  const message = input.value.trim();
+  if (!message) return;
+  
+  // Add user message
+  addAIMessage(message, 'user');
+  input.value = '';
+  
+  // Generate AI response
+  generateAIResponse(message);
+}
+
+function addAIMessage(content, type) {
+  const chatList = document.getElementById('ai-chat-list');
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `ai-message ai-${type}`;
+  
+  if (type === 'user') {
+    messageDiv.innerHTML = `<div class="ai-message-content">${content}</div>`;
+  } else {
+    const uniqueId = `ai-response-${++aiUniqueIdCounter}`;
+    messageDiv.innerHTML = `
+      <div class="ai-message-content" id="${uniqueId}">${content}</div>
+      <div class="ai-loading" style="display: none;">
+        <div class="ai-loading-dot"></div>
+        <div class="ai-loading-dot"></div>
+        <div class="ai-loading-dot"></div>
+      </div>
+    `;
+  }
+  
+  chatList.appendChild(messageDiv);
+  chatList.scrollTop = chatList.scrollHeight;
+  
+  // Store chat HTML
+  aiChatHTML = chatList.innerHTML;
+  
+  return messageDiv;
+}
+
+async function generateAIResponse(userMessage) {
+  const loadingDiv = addAIMessage('', 'assistant');
+  const loadingElement = loadingDiv.querySelector('.ai-loading');
+  const contentElement = loadingDiv.querySelector('.ai-message-content');
+  
+  loadingElement.style.display = 'flex';
+  
+  try {
+    // Add context about current problem
+    const contextMessage = `Current problem: ${currentProblem?.title || 'Unknown'}\n\nUser question: ${userMessage}`;
+    
+    aiChatHistory.push({ role: "user", parts: [{ text: contextMessage }] });
+    
+    const response = await fetch(AI_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents: aiChatHistory })
+    });
+    
+    const data = await response.json();
+    const aiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    
+    if (aiResponse) {
+      aiChatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
+      
+      loadingElement.style.display = 'none';
+      
+      // Format response with code highlighting and auto-insert to editor
+      const formattedResponse = aiResponse
+        .replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+          // Auto-insert code into Monaco editor with typing animation
+          if (editor && code.trim()) {
+            typeCodeInEditor(code.trim());
+          }
+          return `<div class="ai-code-container"><div class="ai-code-header"><span>${lang || 'Code'}</span><button class="ai-copy-btn" onclick="copyAICode(this)"><i class="fas fa-copy"></i></button></div><pre class="ai-code"><code>${code}</code></pre></div>`;
+        })
+        .replace(/`([^`]+)`/g, '<code class="ai-inline-code">$1</code>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+      
+      contentElement.innerHTML = formattedResponse;
+      
+      // Update stored chat HTML
+      aiChatHTML = document.getElementById('ai-chat-list').innerHTML;
+    } else {
+      throw new Error('No response from AI');
+    }
+  } catch (error) {
+    loadingElement.style.display = 'none';
+    contentElement.innerHTML = 'Sorry, I encountered an error. Please try again.';
+  }
+}
+
+function typeCodeInEditor(code) {
+  if (!editor) return;
+  
+  const lines = code.split('\n');
+  let currentLine = 0;
+  
+  editor.setValue('');
+  
+  const typeInterval = setInterval(() => {
+    if (currentLine < lines.length) {
+      const currentValue = editor.getValue();
+      const newValue = currentValue + (currentLine > 0 ? '\n' : '') + lines[currentLine];
+      editor.setValue(newValue);
+      
+      // Move cursor to end
+      const lineCount = editor.getModel().getLineCount();
+      const lastLineLength = editor.getModel().getLineLength(lineCount);
+      editor.setPosition({ lineNumber: lineCount, column: lastLineLength + 1 });
+      
+      currentLine++;
+    } else {
+      clearInterval(typeInterval);
+    }
+  }, 300);
+}
+
+function copyAICode(button) {
+  const codeBlock = button.closest('.ai-code-container').querySelector('code');
+  const code = codeBlock.innerText;
+  
+  navigator.clipboard.writeText(code).then(() => {
+    const originalHTML = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-check"></i>';
+    button.style.color = '#22c55e';
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.style.color = '';
+    }, 2000);
+  });
+}
 
 function updateUrl(index) {
   const url = new URL(window.location);

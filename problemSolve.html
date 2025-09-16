@@ -193,10 +193,14 @@
   require.config({ paths: { vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs" } });
   require(["vs/editor/editor.main"], function () {
     editor = monaco.editor.create(document.getElementById("code-editor"), {
-      value: `   // Note- 
-      //You need Write Whole code of problem 
-      // and ouptut should be Match to exact tast case output 
-      // so please chack test case output before code  `,
+      value: `// Note: 
+// You need to write the complete solution for the problem. 
+// The output must exactly match the test case output. 
+// Always check the test case results before submitting your code. 
+// If you are using AI assistance, verify the results carefully. 
+// Forge may make mistakes. 
+// Always clarify and confirm the output before proceeding.`,
+      
       language: languageChoose.value, // ✅ use current value
       theme: "vs-dark",
       fontSize: 14,
