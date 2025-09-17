@@ -6,6 +6,7 @@ const subHead = document.getElementById("submissions-head");
 const desHead = document.getElementById("des-head");
 const aiHead = document.getElementById("ai-head");
 let problemContent = document.getElementById("problem-content");
+const solutionHead= document.getElementById("solution-head")
 // Code editor functionality
 const codeEditor = document.getElementById("code-editor");
 const languageSelector = document.querySelector(".language-selector");
@@ -19,7 +20,7 @@ let lastSubmissionHTML = "";
 const JUDGE_API =
   "https://ce.judge0.com/submissions?base64_encoded=false&wait=true";
 // If you want to use RapidAPI (as you did), put your key here. Leave empty to use public CE endpoint.
-const RAPIDAPI_KEY = "5ed5e91202msh9bc0f9dbafab4bdp12eb88jsn363a98640217"; // e.g. "fe81c33ec0msh..." or "" to use public endpoint
+const RAPIDAPI_KEY = "fe81c33ec0mshbadcf5481793dd2p1cf45bjsn568419d4bb43"; // e.g. "fe81c33ec0msh..." or "" to use public endpoint
 
 // language id map for Judge0
 const langIds = {
@@ -602,6 +603,42 @@ subHead.addEventListener("click", () => {
       "<p>No submissions yet. Please submit your code first.</p>";
   }
 });
+
+
+
+solutionHead.addEventListener('click',()=>{
+ tabs.forEach(t => t.classList.remove('active'));
+  solutionHead.classList.add('active');
+   
+  if (currentProblem && currentProblem.solutions) {
+    problemContent.innerHTML = `
+      <div class="solution-container">
+        <h2>Solution Approaches</h2>
+        
+        <div class="solution-section">
+          <h3>📺 Video Tutorial</h3>
+          <div class="video-container">
+            <iframe width="100%" height="315" src="${currentProblem.solutions.youtube.replace('youtu.be/', 'youtube.com/embed/').replace('watch?v=', 'embed/').split('?')[0]}" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+        
+        <div class="solution-section">
+          <h3>🧠 Algorithm Approach</h3>
+          <div class="approach-content">
+            <p>${currentProblem.solutions.approach}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    problemContent.innerHTML = '<p>Solution not available for this problem.</p>';
+  }
+
+  
+
+})
+
+
 
 // Initialize with the first problem
 showProblem(problemIndex);

@@ -21,7 +21,11 @@
       { "input": "nums=[2,7,11,15], target=9", "output": "[0,1]" },
       { "input": "nums=[3,2,4], target=5", "output": "[0,1]" },
       { "input": "nums=[3,3], target=6", "output": "[0,1]" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/VBL_tlTnT6Q?si=7mVCiNJLfWT38TYd",
+      "approach": "[Naive Approach] Generating all Possible Pairs - O(n²) time and O(1) space. The basic approach is to generate all the possible pairs and check if any of them add up to the target value. [Optimized Approach] Using Hash Map - O(n) time and O(n) space. Store elements in hash map and check if complement exists."
+    }
   },
   {
     "id": 2,
@@ -38,7 +42,11 @@
       { "input": "x=123", "output": "321" },
       { "input": "x=-120", "output": "321" },
       { "input": "x=1534236469", "output": "321" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/QBNm9Ow-Pko?si=BZkqMJKtPbnJv_DJ",
+      "approach": "[Mathematical Approach] Extract digits using modulo and division - O(log n) time and O(1) space. Extract last digit using x % 10, add to result, and divide x by 10. Handle overflow by checking if result exceeds 32-bit integer range."
+    }
   },
   {
     "id": 3,
@@ -55,7 +63,11 @@
       { "input": "x=121", "output": "true" },
       { "input": "x=-121", "output": "true" },
       { "input": "x=10", "output": "true" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/yubRKwixN-U?si=msH7K2e4pNa106A3",
+      "approach": "[Reverse Half Approach] Reverse only half the number - O(log n) time and O(1) space. Reverse half digits and compare with remaining half. Handle even/odd digit cases separately."
+    }
   },
   {
     "id": 4,
@@ -72,7 +84,11 @@
       { "input": "s='()'", "output": "true" },
       { "input": "s='(]'", "output": "true" },
       { "input": "s='([)]'", "output": "true" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/WTzjTskDFMg",
+      "approach": "[Stack Approach] Use stack to track opening brackets - O(n) time and O(n) space. Push opening brackets to stack, pop when closing bracket matches. String is valid if stack is empty at end."
+    }
   },
   {
     "id": 5,
@@ -92,7 +108,11 @@
       { "input": "l1=[1,2,4], l2=[1,3,4]", "output": "[1,1,2,3,4,4]" },
       { "input": "l1=[], l2=[]", "output": "[1,1,2,3,4,4]" },
       { "input": "l1=[], l2=[0]", "output": "[1,1,2,3,4,4]" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/XIdigk956u0",
+      "approach": "[Two Pointer Approach] Compare nodes and merge - O(m+n) time and O(1) space. Use dummy node, compare current nodes of both lists, attach smaller node to result, advance pointer."
+    }
   },
   {
     "id": 6,
@@ -111,7 +131,11 @@
     "testCases": [
       { "input": "nums=[1,1,2]", "output": "2" },
       { "input": "nums=[0,0,1,1,1,2,2,3,3,4]", "output": "2" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/DEJAZBq0FDA",
+      "approach": "[Two Pointer Approach] In-place removal using slow-fast pointers - O(n) time and O(1) space. Keep slow pointer for unique elements, fast pointer to traverse array. Copy unique elements to slow pointer position."
+    }
   },
   {
     "id": 7,
@@ -131,7 +155,11 @@
       { "input": "nums=[1,3,5,6], target=5", "output": "2" },
       { "input": "nums=[1,3,5,6], target=2", "output": "2" },
       { "input": "nums=[1,3,5,6], target=7", "output": "2" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/K-RYzDZkzCI",
+      "approach": "[Binary Search Approach] Find target or insertion position - O(log n) time and O(1) space. Use binary search to find target. If not found, left pointer gives insertion position."
+    }
   },
   {
     "id": 8,
@@ -150,7 +178,11 @@
       { "input": "nums=[-2,1,-3,4,-1,2,1,-5,4]", "output": "6" },
       { "input": "nums=[1]", "output": "6" },
       { "input": "nums=[5,4,-1,7,8]", "output": "6" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/5WZl3MMT0Eg",
+      "approach": "[Kadane's Algorithm] Dynamic programming approach - O(n) time and O(1) space. Keep track of maximum sum ending at current position. Update global maximum at each step."
+    }
   },
   {
     "id": 9,
@@ -167,7 +199,11 @@
       { "input": "n=2", "output": "2" },
       { "input": "n=3", "output": "2" },
       { "input": "n=5", "output": "2" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/Y0lT9Fck7qI",
+      "approach": "[Dynamic Programming] Fibonacci pattern - O(n) time and O(1) space. Ways to reach step n = ways to reach (n-1) + ways to reach (n-2). Use two variables to store previous results."
+    }
   },
   {
     "id": 10,
@@ -185,7 +221,11 @@
     "testCases": [
       { "input": "root=[1,2,2,3,4,4,3]", "output": "true" },
       { "input": "root=[1,2,2,null,3,null,3]", "output": "true" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/nKggNAiEpBE",
+      "approach": "[Recursive Approach] Compare left and right subtrees - O(n) time and O(h) space. Check if left subtree is mirror of right subtree. Compare left.left with right.right and left.right with right.left."
+    }
   },
   {
     "id": 11,
@@ -203,7 +243,11 @@
     "testCases": [
       { "input": "root=[1,null,2,3]", "output": "[1,3,2]" },
       { "input": "root=[]", "output": "[1,3,2]" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/lxTGsVXjwvM",
+      "approach": "[Recursive Approach] Left-Root-Right traversal - O(n) time and O(h) space. Visit left subtree, process root, visit right subtree. [Iterative Approach] Use stack to simulate recursion - O(n) time and O(h) space."
+    }
   },
   {
     "id": 12,
@@ -221,7 +265,11 @@
     "testCases": [
       { "input": "prices=[7,1,5,3,6,4]", "output": "5" },
       { "input": "prices=[7,6,4,3,1]", "output": "5" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/1pkOgXD63yU",
+      "approach": "[One Pass Approach] Track minimum price and maximum profit - O(n) time and O(1) space. Keep track of minimum price seen so far and calculate profit at each step. Update maximum profit if current profit is higher."
+    }
   },
   {
     "id": 13,
@@ -239,7 +287,11 @@
     "testCases": [
       { "input": "root=[3,9,20,null,null,15,7]", "output": "3" },
       { "input": "root=[]", "output": "3" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/hTM3phVI6YQ",
+      "approach": "[Recursive Approach] DFS traversal - O(n) time and O(h) space. Maximum depth = 1 + max(depth of left subtree, depth of right subtree). Base case: null node has depth 0."
+    }
   },
   {
     "id": 14,
@@ -257,7 +309,11 @@
     "testCases": [
       { "input": "s='A man, a plan, a canal: Panama'", "output": "true" },
       { "input": "s='race a car'", "output": "true" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/jJXJ16kPFWg",
+      "approach": "[Two Pointer Approach] Compare characters from both ends - O(n) time and O(1) space. Use two pointers from start and end, skip non-alphanumeric characters, compare characters in lowercase."
+    }
   },
   {
     "id": 15,
@@ -275,7 +331,11 @@
     "testCases": [
       { "input": "nums=[2,2,1]", "output": "1" },
       { "input": "nums=[4,1,2,1,2]", "output": "1" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/qMPX1AOa83k",
+      "approach": "[XOR Approach] Use XOR properties - O(n) time and O(1) space. XOR all numbers together. Since a XOR a = 0 and a XOR 0 = a, all duplicate numbers cancel out, leaving only the single number."
+    }
   },
   {
     "id": 16,
@@ -293,7 +353,11 @@
     "testCases": [
       { "input": "nums1=[1,2,2,1], nums2=[2,2]", "output": "[2,2]" },
       { "input": "nums1=[4,9,5], nums2=[9,4,9,8,4]", "output": "[2,2]" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/lKuK69-hMcc",
+      "approach": "[Hash Map Approach] Count frequencies - O(m+n) time and O(min(m,n)) space. Count frequency of elements in smaller array, iterate through larger array and add common elements to result."
+    }
   },
   {
     "id": 17,
@@ -312,7 +376,11 @@
     "testCases": [
       { "input": "digits=[1,2,3]", "output": "[1,2,4]" },
       { "input": "digits=[9]", "output": "[1,2,4]" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/jIaA8boiG1s",
+      "approach": "[Reverse Iteration] Handle carry propagation - O(n) time and O(1) space. Start from last digit, add 1, handle carry. If all digits become 0 (like 999+1), create new array with 1 followed by zeros."
+    }
   },
   {
     "id": 18,
@@ -332,7 +400,11 @@
       { "input": "head=[3,2,0,-4], pos=1", "output": "true" },
       { "input": "head=[1,2], pos=0", "output": "true" },
       { "input": "head=[1], pos=-1", "output": "true" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/gBTe7lFR3vc",
+      "approach": "[Floyd's Cycle Detection] Two pointer technique - O(n) time and O(1) space. Use slow and fast pointers. If there's a cycle, fast pointer will eventually meet slow pointer."
+    }
   },
   {
     "id": 19,
@@ -350,7 +422,11 @@
     "testCases": [
       { "input": "push(-2), push(0), push(-3), getMin()", "output": "-3" },
       { "input": "pop(), top()", "output": "-3" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/V09NfaGf2ao",
+      "approach": "[Auxiliary Stack] Use two stacks - O(1) time for all operations and O(n) space. Main stack for elements, auxiliary stack to track minimum at each level. Push to aux stack only when new minimum is found."
+    }
   },
   {
     "id": 20,
@@ -368,6 +444,10 @@
     "testCases": [
       { "input": "s='anagram', t='nagaram'", "output": "true" },
       { "input": "s='rat', t='car'", "output": "true" }
-    ]
+    ],
+    "solutions": {
+      "youtube": "https://youtu.be/9UtInBqnCgA",
+      "approach": "[Frequency Count] Count character frequencies - O(n) time and O(1) space. Count frequency of each character in both strings. If frequencies match, strings are anagrams. [Sorting Approach] Sort both strings - O(n log n) time and O(1) space."
+    }
   }
 ]
