@@ -265,6 +265,10 @@
         accent-color: var(--success);
         cursor: pointer;
       }
+      .problem-number{
+        margin-left: 10px;
+        color: var(--accent-color);
+      }
 
       .problem-name {
         font-weight: 500;

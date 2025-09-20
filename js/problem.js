@@ -72,6 +72,8 @@
                 <div class="problem-row">
           <div class="problem-solved">
             <input type="checkbox">
+          <P class='problem-number'>${idx+1}</p>
+          
           </div>
         <a href="#" class="problem-name" onClick="sendProblem('${idx}')">${
               ind.title

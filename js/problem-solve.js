@@ -333,11 +333,13 @@ async function showProblem(problemIndex) {
     currentProblem = data[problemIndex];
 
     document.title = `CodeForge - ${currentProblem.title}`;
+    let prNum=Number(problemIndex);
+    prNum++;
 
     // Update problem description
     //  problemContent = document.querySelector("#problem-content");
     problemContent.innerHTML = `
-       <h1 class="problem-title">${currentProblem.title}</h1>
+       <h1 class="problem-title">${(prNum) + ". " +currentProblem.title}</h1>
           <div class="difficulty  ${currentProblem.difficulty.toLowerCase()}">${
       currentProblem.difficulty.charAt(0).toUpperCase() +
       currentProblem.difficulty.slice(1)
